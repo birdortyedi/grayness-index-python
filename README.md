@@ -8,7 +8,9 @@ Disclaimer:
 
 ## Installation
 
-```pip install grayness-index-python```
+```
+pip install grayness-index-python
+```
 
 ## Basic Usage
 
