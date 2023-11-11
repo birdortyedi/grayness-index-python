@@ -6,10 +6,12 @@ class GraynessIndex:
     def __init__(
         self,
         percentage_of_GPs: float = 0.1,
-        delta_threshold: float = 1e-4
+        delta_threshold: float = 1e-4,
+        epsilon: float = 1e-7
     ) -> None:
         self.percentage_of_GPs = percentage_of_GPs
         self.delta_threshold = delta_threshold
+        self.epsilon = epsilon
         
     def apply_smoothing(self, x):
         return uniform_filter(x, 7, mode="wrap")
@@ -35,7 +37,7 @@ class GraynessIndex:
 
         R = self.apply_smoothing(R); G = self.apply_smoothing(G); B = self.apply_smoothing(B)
         M = M | (R == 0) | (G == 0) | (B == 0)
-        R[R==0] = 1e-7; G[G==0] = 1e-7; B[B==0] = 1e-7
+        R[R==0] = self.epsilon; G[G==0] = self.epsilon; B[B==0] = self.epsilon
         norm1 = R + G + B
 
         delta_R = self.derivative_gaussian(R)
@@ -51,8 +53,8 @@ class GraynessIndex:
         M = M | (delta_log_R == np.inf) | (delta_log_B == np.inf)
         
         delta = np.stack([
-            np.reshape(delta_log_R ,(h * w, -1)),
-            np.reshape(delta_log_B ,(h * w, -1))
+            np.reshape(delta_log_R, (h * w, -1)),
+            np.reshape(delta_log_B, (h * w, -1))
         ], axis=-1)
         
         norm2 = np.linalg.norm(delta, axis=-1)
