@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-from grayness_index import __version__ as version
+from src.grayness_index_python import __version__ as version
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -41,5 +41,7 @@ setup(
             'tag_build': '',
             'tag_date': 0
         }
-    }
+    },
+    package_dir={'': 'src'},
+    include_package_data=True,
 )
