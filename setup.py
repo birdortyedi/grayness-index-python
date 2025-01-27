@@ -32,5 +32,14 @@ setup(
         "color constancy",
         "illuminant estimation",
         "computer vision"
-    ]
+    ],
+    options={
+        'bdist_wheel': {
+            'universal': True
+        },
+        'egg_info': {
+            'tag_build': '',
+            'tag_date': 0
+        }
+    }
 )
